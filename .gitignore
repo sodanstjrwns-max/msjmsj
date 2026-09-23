@@ -31,3 +31,11 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+.env.*
+.dev.vars.*
+.pm2/
+*.pid
+*.tar.gz
+*.zip
+test-results/
+playwright-report/
