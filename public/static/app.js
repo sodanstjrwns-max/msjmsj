@@ -65,7 +65,8 @@
       card.hidden = button.dataset.filter !== 'all' && card.dataset.type !== button.dataset.filter;
       if (!card.hidden) count++;
     });
-    document.querySelector('#filter-status').textContent = `${button.textContent.trim().replace(/\s*4$/, '')} 콘텐츠 ${count}개를 표시합니다.`;
+    document.querySelector('.records-grid').classList.toggle('filtered', button.dataset.filter !== 'all');
+    document.querySelector('#filter-status').textContent = `${button.textContent.trim().replace(/\s*\d+$/, '')} 콘텐츠 ${count}개를 표시합니다.`;
   }));
 
   document.querySelector('#play-intro').addEventListener('click', () => {
@@ -79,6 +80,45 @@
     stage.replaceChildren(frame);
     frame.focus();
   });
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const header = document.querySelector('.site-header');
+  const progress = document.querySelector('.reading-progress');
+  const orbit = document.querySelector('.hero-orbit');
+  let scheduled = false;
+  const paintScroll = () => {
+    const y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 80);
+    const range = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${range > 0 ? Math.min(1, y / range) : 0})`;
+    if (!reducedMotion.matches && window.innerWidth > 900 && y < 1100) {
+      orbit.style.transform = `translate(-41%, -50%) rotate(${Math.min(y * 0.014, 12)}deg)`;
+    }
+    scheduled = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!scheduled) { scheduled = true; requestAnimationFrame(paintScroll); }
+  }, { passive: true });
+  paintScroll();
+
+  if ('IntersectionObserver' in window && !reducedMotion.matches) {
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('is-waiting');
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(element => {
+      // Never delay the hero or content already on screen.
+      if (element.getBoundingClientRect().top > window.innerHeight) {
+        element.classList.add('is-waiting');
+        revealObserver.observe(element);
+      }
+    });
+  }
 
   if ('IntersectionObserver' in window) {
     const navLinks = [...menu.querySelectorAll('a[href^="#"]')];

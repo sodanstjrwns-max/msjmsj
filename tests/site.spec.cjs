@@ -96,6 +96,8 @@ test('video requests third party only after click and retains fallback', async (
 
 for (const width of [390, 1440]) {
   test(`WCAG automated audit ${width}px`, async ({ page }) => {
+    // Audit the stable, reduced-motion presentation rather than a transition frame.
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.setViewportSize({ width, height: 1000 });
     await page.goto(base);
     await page.evaluate(() => document.fonts.ready);
