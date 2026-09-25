@@ -10,7 +10,7 @@ export const SiteHeader = ({ home = false }: { home?: boolean }) => {
     <a href={home ? '#top' : '/'} class="brand wordmark-brand" aria-label="치과의사 문석준, 처음으로"><span class="brand-profession">치과의사</span><Wordmark /></a>
     <span class="header-note">한 사람의 이야기에서 시작하는 진료</span>
     <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-nav"><span>메뉴</span><span class="menu-lines" aria-hidden="true"></span></button>
-    <nav id="main-nav" aria-label="주 메뉴"><a href={`${root}#approach`}>진료의 태도</a><a href={`${root}#records`}>글과 영상</a><a href={`${root}#about`}>문석준</a><a href={`${root}#visit`} class="nav-visit">진료 안내 <span aria-hidden="true">↗</span></a></nav>
+    <nav id="main-nav" aria-label="주 메뉴"><a href={`${root}#about`}>나의 이야기</a><a href={`${root}#approach`}>진료의 태도</a><a href={`${root}#records`}>글과 영상</a><a href={`${root}#visit`} class="nav-visit">진료 안내 <span aria-hidden="true">↗</span></a></nav>
   </header>
 }
 

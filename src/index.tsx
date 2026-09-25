@@ -63,8 +63,98 @@ app.get('/', (c) => c.render(
         <div class="opening-lower"><span class="opening-symbol" aria-hidden="true">↳</span><p>어디가 불편한지보다, 무섭다는 말을 먼저 꺼내셔도 괜찮습니다.<br class="desktop-break" /> 치과에 오기까지의 망설임도 듣고 싶습니다.<br /><br />저도 어린 시절의 치과 경험 때문에 치료가 두려웠습니다.<br />그래서 어렵게 내신 용기를 소중하게 생각합니다.</p><span class="opening-footnote">나의 말보다,<br />당신의 이야기부터.</span></div>
       </section>
 
+      <section class="about-section" id="about" aria-labelledby="about-title">
+        <div class="about-inner">
+          <div class="section-heading"><span><i>01</i> MY STORY</span><span>치과의사이기 전에, 한 사람의 이야기</span></div>
+          <div class="about-layout">
+            <div class="about-name">
+              <span class="eyebrow">치과의사 · 서울비디치과 대표원장</span>
+              <h2 id="about-title">문석준</h2>
+              <figure class="about-portrait"><img src="/static/moon-profile.webp" width="600" height="840" loading="lazy" alt="서울비디치과 문석준 대표원장 프로필" /><figcaption>겁이 많았던 아이가,<br />치과의사가 되었습니다.</figcaption></figure>
+            </div>
+            <div class="about-content">
+              <span class="eyebrow">제 이야기를 조금 더 들려드릴게요</span>
+              <h3 class="reveal">저는<br /><span>겁쟁이입니다.</span></h3>
+              <p>높은 곳도, 다리가 많은 생물도 무섭습니다. 병원에 가는 일도, 치과 치료를 받는 일도 두렵습니다. 치과의사가 된 지금도, 두려움은 저에게 낯선 감정이 아닙니다.</p>
+              <p>그런 제가 왜 치과의사가 되었고, 왜 환자분의 작은 용기를 이렇게 소중하게 생각하는지. 어린 시절의 기억에서부터 이야기를 시작해 보려 합니다.</p>
+              <a href="#story" class="text-link">겁이 많았던 아이의 이야기 <Arrow down /></a>
+              <dl class="credentials"><div><dt>소속</dt><dd>서울비디치과 대표원장</dd></div><div><dt>학력</dt><dd>서울대학교 치의학과<br />서울대학교 치의학대학원 석사</dd></div><div><dt>진료 관심</dt><dd>임플란트 · 정밀 진단</dd></div></dl>
+              <External href="https://bdbddc.com/doctors/moon" class="text-link">병원 공식 의료진 소개 <Arrow diagonal /></External>
+            </div>
+          </div>
+
+          <article class="personal-story" id="story" aria-labelledby="story-title">
+            <header class="story-opening">
+              <span class="eyebrow">어린 시절의 기억에서, 지금의 진료까지</span>
+              <h3 id="story-title">제가 치과에서<br /><span>바꾸고 싶은 경험.</span></h3>
+              <p>치과가 두려웠던 저에게, 치과의사로서의 목표가 생기기까지.</p>
+              <nav class="story-chapters" aria-label="나의 이야기 목차">
+                <a href="#story-childhood"><span>01</span> 가장 오래된 기억</a>
+                <a href="#story-dream"><span>02</span> 뒤늦게 생긴 목표</a>
+                <a href="#story-courage"><span>03</span> 깨지기 쉬운 용기</a>
+                <a href="#story-experience"><span>04</span> 바꾸고 싶은 첫 경험</a>
+                <a href="#story-reward"><span>05</span> 가장 큰 보람</a>
+              </nav>
+            </header>
+
+            <section class="story-chapter" id="story-childhood" aria-labelledby="story-childhood-title">
+              <div class="story-chapter-heading"><span class="story-number">01 / 어린 시절</span><h4 id="story-childhood-title">가장 오래된 기억이<br />치과에 있습니다.</h4></div>
+              <div class="story-prose">
+                <p>제 인생의 가장 이른 기억은 치과에서 울부짖던 장면입니다. 페디랩이라는, 몸의 움직임을 제한하는 장치에 둘러싸인 채 치료를 받고 있었습니다. 손발을 마음대로 움직일 수 없는 상태에서 치료를 받는 일은 어린 저에게 무척이나 두려운 경험이었습니다.</p>
+                <p>어른에게도 무서울 수 있는 상황이 어린아이에게는 얼마나 크게 느껴졌을까요. 그때의 기억은 치료가 끝났다고 함께 끝나지 않았습니다. 오래도록 저를 따라다녔고, 치과를 두려워하는 마음으로 남았습니다.</p>
+                <p>그래서 치과가 무섭다는 말씀을 들으면, 저는 그 감정을 멀리서 상상하지 않아도 됩니다. 치료를 받아야 한다는 것을 아는 마음과, 치료가 두려운 마음은 함께 있을 수 있습니다. 저에게도 익숙한 일이기 때문입니다.</p>
+              </div>
+            </section>
+
+            <section class="story-chapter" id="story-dream" aria-labelledby="story-dream-title">
+              <div class="story-chapter-heading"><span class="story-number">02 / 치과의사가 되며</span><h4 id="story-dream-title">처음부터 치과의사를<br />꿈꾼 것은 아닙니다.</h4></div>
+              <div class="story-prose">
+                <p>어린 시절부터 치과의사가 되겠다는 꿈을 품고 자란 것은 아니었습니다. 살아가다 보니 치과의사가 되는 길에 들어섰습니다. 그런데 치과의사 면허를 받기 위해 공부하는 과정에서, 제게 꼭 이루고 싶은 목표가 하나 생겼습니다.</p>
+                <p>치과에서 좋지 않은 경험을 한 분들을 보게 되었습니다. 너무 아팠던 치료, 버거웠던 과정, 무섭게 느껴진 말과 태도. 어떤 분에게는 치과 특유의 소리나 냄새만으로도 그때의 기억이 되살아났습니다. 그런 경험이 쌓이면 치료가 필요하다는 사실을 알아도 치과를 찾기 어려워질 수 있었습니다.</p>
+                <p>어린 시절의 저와, 제가 만난 환자분들의 경험이 겹쳐 보였습니다. 치아를 치료하는 기술을 배우면서 동시에, 그 치료를 받는 사람이 어떤 경험을 하게 되는지 생각하기 시작했습니다. 제가 어떤 치과의사가 되고 싶은지도 그때부터 분명해졌습니다.</p>
+              </div>
+            </section>
+
+            <section class="story-chapter" id="story-courage" aria-labelledby="story-courage-title">
+              <div class="story-chapter-heading"><span class="story-number">03 / 환자분들을 만나며</span><h4 id="story-courage-title">간신히 낸 용기는<br />깨지기 쉬웠습니다.</h4></div>
+              <div class="story-prose">
+                <p>서울대학교 치과병원에서, 치료를 미룬 시간을 후회하며 어렵게 찾아오신 환자분들을 보았습니다. 병원에 들어서는 것만으로도 많은 용기가 필요했던 분들이었습니다. 겉으로 보이는 치아의 상태 뒤에는, 그 자리에 오기까지의 망설임과 두려움이 있었습니다.</p>
+                <p>저는 그런 마음이 깨진 유리 조각을 간신히 붙여 놓은 것 같다고 느꼈습니다. 겨우 마음을 모아 오셨는데, 작은 충격에도 다시 무너질 수 있는 상태였습니다. 진료를 하는 사람에게는 치료의 중요성을 강조하는 말이, 듣는 분에게는 상처로 남을 수 있다는 것도 생각하게 되었습니다.</p>
+                <p>치료받겠다고 어렵게 낸 용기가 다시 두려움으로 돌아가는 모습을 보는 일은 안타까웠습니다. 어디서부터 시작된 일일까, 생각했습니다. 처음의 좋지 않은 치과 경험이 오랜 회피로 이어지고, 그렇게 미룬 시간이 더 큰 후회가 되어 돌아오는 과정이 마음에 남았습니다.</p>
+                <p>그때부터 제게는 눈앞의 치료만큼이나, 환자분이 다음에도 치과를 찾아올 수 있을지가 중요한 질문이 되었습니다. 지금 어렵게 꺼내신 마음을 어떻게 대할 것인지, 제 말과 태도가 어떤 기억으로 남을 것인지 생각하게 되었습니다.</p>
+              </div>
+            </section>
+
+            <section class="story-chapter" id="story-experience" aria-labelledby="story-experience-title">
+              <div class="story-chapter-heading"><span class="story-number">04 / 제가 품게 된 목표</span><h4 id="story-experience-title">치과에서의 첫 단추를<br />다르게 끼우고 싶습니다.</h4></div>
+              <div class="story-prose">
+                <p>저는 환자분이 치과에서 겪는 경험을 바꾸고 싶은 치과의사입니다. 어린 시절의 저처럼 두려운 기억을 오래 안고 살아가는 사람이 조금이라도 줄었으면 합니다. 이미 그런 기억이 있는 분에게도, 다음 치과 경험은 조금 다를 수 있었으면 합니다.</p>
+                <p>처음 만나는 치과라면 그 시작을, 오랜 망설임 끝에 다시 찾은 치과라면 그 새로운 시작을 소중하게 대하고 싶습니다. 제가 병원을 구상하고 진료를 생각할 때부터 품어 온 마음입니다. 치과를 나설 때 어떤 기분이 남을지, 다음 방문을 떠올릴 때 어떤 기억이 먼저 찾아올지까지 생각하고 싶었습니다.</p>
+                <p>모든 두려움이 한 번에 사라진다고 말씀드릴 수는 없습니다. 다만 두려움을 가진 채 오셔도 괜찮다는 마음을 전하고 싶습니다. 어떤 경험이 힘드셨는지, 어떤 순간이 가장 걱정되는지 듣는 일이 저에게 중요한 이유입니다. 이 홈페이지의 첫 인사를 ‘충분히 듣습니다’로 정한 마음도 여기에 있습니다.</p>
+              </div>
+            </section>
+
+            <section class="story-chapter" id="story-reward" aria-labelledby="story-reward-title">
+              <div class="story-chapter-heading"><span class="story-number">05 / 지금도 가장 큰 보람</span><h4 id="story-reward-title">치료를 ‘못’ 받던 분이<br />시작하실 때입니다.</h4></div>
+              <div class="story-prose">
+                <p>두려워서 치과 치료를 받지 못하던 분이, 저와 만나 치료를 시작하시게 되는 것. 그것이 치과의사로서 제가 느끼는 가장 큰 보람입니다. 오랫동안 망설이다가 병원을 찾아오시는 일이 얼마나 어려운지 알기에, 그 시작이 제게도 크게 다가옵니다.</p>
+                <p>그 용기를 당연하게 여기고 싶지 않습니다. 어렵게 마음을 내어 찾아와 주신 분들께 존경과 감사를 느낍니다. 작은 용기가 다음 치료로 이어지고, 자신의 치아를 돌보는 일로 이어질 수 있도록 함께하고 싶습니다.</p>
+                <p>치과에 오기까지의 이야기가 길어도 괜찮습니다. 무서웠다는 말, 그동안 오지 못했다는 말부터 시작하셔도 괜찮습니다. 간신히 마련한 용기가 다시 부서질까 걱정되신다면, 그 마음까지 들려주세요. 저도 겁이 많았던 사람으로서, 그리고 지금 환자분을 만나는 치과의사로서 듣겠습니다.</p>
+              </div>
+            </section>
+
+            <footer class="story-closing">
+              <p>어렵게 내신 그 용기에,<br /><span>존경과 감사를 보냅니다.</span></p>
+              <span class="story-signature">치과의사 문석준</span>
+              <External href="https://www.instagram.com/p/Cw6ewtKyHaW/" class="text-link">2023년 9월, 이 마음을 기록한 소개글 <Arrow diagonal /></External>
+            </footer>
+          </article>
+          <aside class="colleagues"><span class="eyebrow">동료에게 전하는 작업</span><div><p>진료와 병원 운영에서 마주한 질문을 동료들과 나누는 작업도 하고 있습니다. 설명이 잘 전달되는 방법, 환자분의 경험을 놓치지 않는 과정을 공부하고 정리합니다.</p><details><summary>운영 관련 저술 이력 <span class="details-plus" aria-hidden="true">+</span></summary><div class="colleague-book"><span class="record-meta">2025 · 문석준 단독 저서</span><h3>개원 5년, 연 매출 100억 원을 만든 질문들</h3><External href="https://product.kyobobook.co.kr/detail/S000218133454" class="text-link">서점에서 책 정보 보기 <Arrow diagonal /></External></div></details></div></aside>
+        </div>
+      </section>
+
       <section class="approach-section" id="approach" aria-labelledby="approach-title">
-        <div class="section-heading"><span><i>01</i> THE WAY I CARE</span><span>진료의 태도</span></div>
+        <div class="section-heading"><span><i>02</i> THE WAY I CARE</span><span>진료의 태도</span></div>
         <div class="approach-layout">
           <div class="approach-opening"><h2 id="approach-title" class="reveal">어떤 마음으로<br />오셨나요<span class="serif-punctuation">?</span></h2><p>같은 치료 이름을 이야기하더라도<br />사람마다 기대와 걱정은 다릅니다.<br />마음에 가까운 질문부터 읽어보세요.</p>
             <div class="question-tabs" aria-label="진료에 대한 생각 주제">
@@ -82,7 +172,7 @@ app.get('/', (c) => c.render(
       </section>
 
       <section class="records-section" id="records" aria-labelledby="records-title">
-        <div class="section-heading"><span><i>02</i> THOUGHTS & RECORDS</span><span>글과 영상</span></div>
+        <div class="section-heading"><span><i>03</i> THOUGHTS & RECORDS</span><span>글과 영상</span></div>
         <div class="records-intro"><h2 id="records-title" class="reveal">대화의<br /><span class="offset-word">다음 장.</span></h2><div><span class="records-script" aria-hidden="true">Notes</span><p>진료실에서 들었던 설명을 다시 펼쳐볼 수 있도록.<br />듣고 나서, 쓰고 만듭니다.</p></div></div>
         <div class="record-filters" aria-label="콘텐츠 종류 필터"><button class="filter-button is-active" data-filter="all" aria-pressed="true">전체 <sup>04</sup></button><button class="filter-button" data-filter="article" aria-pressed="false">글 <sup>01</sup></button><button class="filter-button" data-filter="book" aria-pressed="false">책 <sup>02</sup></button><button class="filter-button" data-filter="video" aria-pressed="false">영상 <sup>01</sup></button></div>
         <p class="sr-only" role="status" id="filter-status" aria-live="polite"></p>
@@ -94,14 +184,6 @@ app.get('/', (c) => c.render(
         </div>
         <div class="channel-row"><p>더 이어서 읽고, 보고 싶으시다면</p><div><External href="https://brunch.co.kr/@writertbtu">브런치 <Arrow diagonal /></External><External href="https://www.youtube.com/@%EC%A7%84%EC%A0%95%EC%9E%84%ED%94%8C%EB%9E%80%ED%8A%B8%EB%AC%B8%EC%84%9D%EC%A4%80">진정 임플란트 문석준 <Arrow diagonal /></External></div></div>
       </section>
-
-      <section class="about-section" id="about" aria-labelledby="about-title"><div class="about-inner"><div class="section-heading"><span><i>03</i> THE PERSON BEHIND</span><span>치과의사 문석준</span></div><div class="about-layout"><div class="about-name"><span class="eyebrow">치과의사 · 서울비디치과 대표원장</span><h2 id="about-title">문석준</h2><figure class="about-portrait"><img src="/static/moon-profile.webp" width="600" height="840" loading="lazy" alt="서울비디치과 문석준 대표원장 프로필" /><figcaption>진료하고, 기록하고,<br />더 나은 방법을 고민합니다.</figcaption></figure></div><div class="about-content"><span class="eyebrow">제가 충분히 듣고 싶은 이유</span>
-          <h3 class="reveal">저도 치과가<br /><span>무서웠습니다.</span></h3>
-          <p>어린 시절, 치과에서 몸이 고정된 채 치료를 받으며 울었던 기억이 있습니다. 그때의 두려움은 오래 남았습니다. 치과 치료를 앞둔 마음이 어떤지, 저에게도 익숙한 감정입니다.</p>
-          <p>치과의사가 되기 위해 공부하면서, 두려움 때문에 치료를 미루다가 어렵게 병원을 찾은 환자분들을 만났습니다. 진료실에 앉기까지 얼마나 큰 용기가 필요했을지 생각하게 되었습니다.</p>
-          <p>그래서 저는 환자분이 치과에서 겪는 경험을 소중하게 생각합니다. 어떤 기억 때문에 망설였는지, 무엇이 가장 걱정되는지. 치료에 대한 설명을 시작하기 전에 그 이야기를 충분히 듣고 싶습니다.</p>
-          <p>두려워서 치료받지 못하던 분이 용기를 내어 치료를 시작하실 때 큰 보람을 느낍니다. 어렵게 내신 그 용기에 존경과 감사를 보내는 마음으로, 서울비디치과에서 진료하고 있습니다.</p>
-          <External href="https://www.instagram.com/p/Cw6ewtKyHaW/" class="text-link">이 마음을 담아 쓴 소개글 <Arrow diagonal /></External><dl class="credentials"><div><dt>소속</dt><dd>서울비디치과 대표원장</dd></div><div><dt>학력</dt><dd>서울대학교 치의학과<br />서울대학교 치의학대학원 석사</dd></div><div><dt>진료 관심</dt><dd>임플란트 · 정밀 진단</dd></div></dl><External href="https://bdbddc.com/doctors/moon" class="text-link">병원 공식 의료진 소개 <Arrow diagonal /></External></div></div><aside class="colleagues"><span class="eyebrow">동료에게 전하는 작업</span><div><p>진료와 병원 운영에서 마주한 질문을 동료들과 나누는 작업도 하고 있습니다. 설명이 잘 전달되는 방법, 환자분의 경험을 놓치지 않는 과정을 공부하고 정리합니다.</p><details><summary>운영 관련 저술 이력 <span class="details-plus" aria-hidden="true">+</span></summary><div class="colleague-book"><span class="record-meta">2025 · 문석준 단독 저서</span><h3>개원 5년, 연 매출 100억 원을 만든 질문들</h3><External href="https://product.kyobobook.co.kr/detail/S000218133454" class="text-link">서점에서 책 정보 보기 <Arrow diagonal /></External></div></details></div></aside></div></section>
 
       <section class="visit-section" id="visit" aria-labelledby="visit-title"><div class="section-heading"><span><i>04</i> SEE YOU IN PERSON</span><span>진료 안내</span></div><div class="visit-layout"><div><h2 id="visit-title" class="reveal">다음 이야기는,<br /><span>진료실에서.</span></h2><p>천안의 서울비디치과에서 진료하고 있습니다.<br />진료 일정과 예약 방법은 병원 공식 안내를 확인해 주세요.</p></div><External href="https://bdbddc.com/reservation?doctor=moon" class="visit-primary"><span class="eyebrow">SEOUL BD</span><Arrow diagonal /><span>문석준 원장<br />진료 예약 안내</span></External></div><div class="visit-bottom"><span>예약 및 진료 문의는 병원에서 안내해 드립니다.</span><External href="https://bdbddc.com" class="text-link">서울비디치과 위치·이용 안내 <Arrow diagonal /></External></div></section>
     </main>

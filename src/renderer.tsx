@@ -31,8 +31,8 @@ export const renderer = jsxRenderer(({ children }, c) => (
       <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
       <link rel="preload" href="/static/greeting/v1/desktop/frame-00.webp" as="image" media="(min-width: 781px)" />
       <link rel="preload" href="/static/greeting/v1/mobile/frame-00.webp" as="image" media="(max-width: 780px)" />
-      <link rel="stylesheet" href="/static/style.css?v=portrait-20260925" />
-      <script src="/static/app.js" defer></script>
+      <link rel="stylesheet" href="/static/style.css?v=story-expanded-20260925" />
+      <script src="/static/app.js?v=story-expanded-20260925" defer></script>
     </head>
     <body>{children}</body>
   </html>

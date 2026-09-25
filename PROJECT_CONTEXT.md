@@ -6,6 +6,8 @@
 
 ## 진행 중 작업
 
+- Codex · 2026-09-25T22:27:43.103984+09:00 · 개인 홈페이지 자기소개를 인스타 확인 원문 기반의 5장 이야기로 확장. 범위 /Users/msj/msjmsj src/index.tsx·brand.tsx·renderer.tsx, public/static/style.css·app.js; 기존 실사진 유지·PC/모바일 확인·커밋/운영 배포. [moon-story-expanded-20260925]
+
 
 
 - Codex · 2026-09-25 Naver 서치어드바이저 기존 소유 계정 로그인 대기. Chrome 로그인 탭 유지. 로그인 후 moon.bdbddc.com 소유권 확인·sitemap.xml 제출만 재개. Google/Bing 재제출 불필요. [moon-search-launch-20260925]

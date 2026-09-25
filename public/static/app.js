@@ -336,6 +336,6 @@
         });
       }
     }, { rootMargin: '-15% 0px -55% 0px', threshold: 0 });
-    document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
+    document.querySelectorAll('main > section[id]').forEach(section => observer.observe(section));
   }
 })();
