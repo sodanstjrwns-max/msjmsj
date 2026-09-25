@@ -6,6 +6,8 @@
 
 ## 진행 중 작업
 
+- Codex · 2026-09-25T22:16:41.311144+09:00 · 인스타 소개글의 실제 경험과 환자분 용기 존중을 홈페이지 도입·진료 태도·원장 소개에 반영. 대상 src/index.tsx, src/renderer.tsx 및 공통 기록. 사진/디자인 유지, 새 임상 주장·후기 추가 없음. [moon-story-20260925]
+
 
 - Codex · 2026-09-25 Naver 서치어드바이저 기존 소유 계정 로그인 대기. Chrome 로그인 탭 유지. 로그인 후 moon.bdbddc.com 소유권 확인·sitemap.xml 제출만 재개. Google/Bing 재제출 불필요. [moon-search-launch-20260925]
 
