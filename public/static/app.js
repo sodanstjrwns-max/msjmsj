@@ -81,6 +81,149 @@
     frame.focus();
   });
 
+  // Decode 30 unique frames once, then use the same frames in reverse to stand up.
+  // No wheel/touch interception, video autoplay, runtime image processing or timers
+  // that keep rendering after the scroll position has settled.
+  function initGreeting() {
+    const section = document.querySelector('#greeting');
+    const stage = section?.querySelector('.greeting-stage');
+    const canvas = document.querySelector('#greeting-canvas');
+    const button = document.querySelector('#greeting-motion');
+    const cue = document.querySelector('#greeting-cue');
+    if (!section || !canvas || !button) return;
+    const context = canvas.getContext('2d', { alpha: true });
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const saveData = Boolean(navigator.connection?.saveData);
+    const variant = window.innerWidth <= 780 ? 'mobile' : 'desktop';
+    const dimensions = variant === 'mobile' ? [432, 576] : [810, 1080];
+    const images = new Array(30);
+    const attempts = new Array(30).fill(0);
+    const ordered = [0, 29, 15, 7, 22, ...Array.from({ length: 30 }, (_, i) => i)]
+      .filter((value, index, list) => list.indexOf(value) === index);
+    let queueIndex = 0, activeLoads = 0, loaded = 0;
+    let paused = saveData, failed = !context, enabled = false, requested = false;
+    let lastFrame = -1;
+    let lastCue = '';
+    canvas.width = dimensions[0]; canvas.height = dimensions[1];
+    section.dataset.variant = variant;
+    section.dataset.frameCount = '30';
+    section.dataset.loadedFrames = '0';
+    button.dataset.initialized = 'true';
+
+    const clamp = value => Math.max(0, Math.min(1, value));
+    function setCue(text) {
+      if (text !== lastCue) { cue.textContent = text; lastCue = text; }
+    }
+    function schedule() {
+      if (!requested) { requested = true; requestAnimationFrame(render); }
+    }
+    function render() {
+      requested = false;
+      if (!enabled || !context) return;
+      const headerHeight = parseFloat(getComputedStyle(section).getPropertyValue('--header-height')) || 0;
+      const range = Math.max(1, section.offsetHeight - stage.offsetHeight);
+      const position = clamp((headerHeight - section.getBoundingClientRect().top) / range);
+      // A brief greeting, a slow descent, a pause, then the same natural return.
+      let bow = 0;
+      if (position > 0.06 && position < 0.47) bow = (position - 0.06) / 0.41;
+      else if (position >= 0.47 && position <= 0.56) bow = 1;
+      else if (position > 0.56 && position < 0.94) bow = 1 - (position - 0.56) / 0.38;
+      const target = Math.round(clamp(bow) * 29);
+      const outro = clamp((position - 0.73) / 0.2);
+      const intro = 1 - clamp((position - 0.13) / 0.14);
+      section.style.setProperty('--intro-opacity', String(intro));
+      section.style.setProperty('--outro-opacity', String(outro));
+      section.style.setProperty('--intro-y', `${-18 * (1 - intro)}px`);
+      section.style.setProperty('--outro-y', `${22 * (1 - outro)}px`);
+      section.style.setProperty('--greeting-progress', String(position));
+      section.dataset.progress = position.toFixed(3);
+      section.dataset.targetFrame = String(target);
+      let available = target;
+      if (!images[available]) {
+        let distance = 31;
+        images.forEach((image, index) => {
+          if (image && Math.abs(index - target) < distance) {
+            distance = Math.abs(index - target); available = index;
+          }
+        });
+      }
+      if (images[available] && available !== lastFrame) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(images[available], 0, 0, canvas.width, canvas.height);
+        lastFrame = available;
+        section.dataset.frame = String(available);
+        section.classList.add('is-ready');
+      }
+      setCue(position < 0.09 ? '스크롤로 인사를 나눠보세요' : position < 0.57 ? '반가운 마음을 담아 인사합니다' : position < 0.93 ? '이제, 당신의 이야기를 듣겠습니다' : '아래로 이야기가 이어집니다');
+    }
+    function loadFrame(index) {
+      activeLoads++; attempts[index]++;
+      const image = new Image(); image.decoding = 'async';
+      let settled = false;
+      const finish = success => {
+        if (settled) return;
+        settled = true; clearTimeout(timeout); activeLoads--;
+        image.onload = image.onerror = null;
+        if (success) {
+          images[index] = image; loaded++;
+          section.dataset.loadedFrames = String(loaded);
+          if (loaded === 30) section.dataset.sequenceComplete = 'true';
+          schedule();
+        } else if (attempts[index] < 2) ordered.push(index);
+        else if (index === 0) {
+          failed = true;
+          const poster = document.querySelector('#greeting-poster');
+          poster.parentElement.querySelectorAll('source').forEach(source => source.remove());
+          poster.src = '/static/moon-profile.webp';
+          poster.alt = '치과의사 문석준의 실제 프로필 사진';
+          configure();
+        }
+        else section.dataset.sequencePartial = 'true';
+        pump();
+      };
+      const timeout = setTimeout(() => finish(false), 10000);
+      image.onload = () => finish(image.naturalWidth > 0);
+      image.onerror = () => finish(false);
+      image.src = `/static/greeting/v1/${variant}/frame-${String(index).padStart(2, '0')}.webp`;
+    }
+    function pump() {
+      if (!enabled || document.hidden) return;
+      while (activeLoads < 4 && queueIndex < ordered.length) loadFrame(ordered[queueIndex++]);
+      if (activeLoads === 0 && queueIndex >= ordered.length && loaded < 30) {
+        failed = true;
+        configure();
+      }
+    }
+    function configure() {
+      const previouslyEnabled = enabled;
+      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+      const inside = window.scrollY >= sectionTop && window.scrollY < sectionTop + section.offsetHeight;
+      enabled = !preference.matches && !paused && !failed;
+      section.classList.toggle('is-enabled', enabled);
+      section.classList.toggle('is-static', !enabled);
+      button.disabled = preference.matches || failed;
+      button.setAttribute('aria-pressed', String(!enabled));
+      button.textContent = preference.matches ? '움직임 감소 설정 적용' : failed ? '정지 이미지로 보기' : enabled ? '모션 끄기' : '모션 켜기';
+      if (!enabled) {
+        section.style.removeProperty('--intro-opacity'); section.style.removeProperty('--outro-opacity');
+        section.style.removeProperty('--outro-y');
+        setCue(failed ? '아래로 이야기가 이어집니다' : '정지 이미지로 보고 있습니다');
+      } else {
+        pump(); schedule();
+      }
+      // Collapsing a pinned section must not throw the visitor down the page.
+      if (previouslyEnabled && !enabled && inside) window.scrollTo({ top: sectionTop - 70, behavior: 'instant' });
+    }
+    button.addEventListener('click', () => { paused = !paused; configure(); });
+    preference.addEventListener('change', configure);
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { pump(); schedule(); } });
+    if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(stage);
+    configure();
+  }
+  initGreeting();
+
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const header = document.querySelector('.site-header');
   const progress = document.querySelector('.reading-progress');
@@ -91,7 +234,7 @@
     header.classList.toggle('is-scrolled', y > 80);
     const range = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.transform = `scaleX(${range > 0 ? Math.min(1, y / range) : 0})`;
-    if (!reducedMotion.matches && window.innerWidth > 900 && y < 1100) {
+    if (!document.querySelector('#greeting') && !reducedMotion.matches && window.innerWidth > 900 && y < 1100) {
       orbit.style.transform = `translate(-41%, -50%) rotate(${Math.min(y * 0.014, 12)}deg)`;
     }
     scheduled = false;

@@ -14,7 +14,7 @@ test('content, metadata, links and light initial load', async ({ page }) => {
   await expect(page).toHaveTitle('치과의사 문석준 — 충분히 듣습니다');
   await expect(page.locator('h1')).toHaveText('충분히 듣습니다.');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
-  expect(await page.locator('.portrait img').evaluate(img => img.complete && img.naturalWidth === 600)).toBe(true);
+  expect(await page.locator('.portrait img').evaluate(img => img.complete && img.naturalWidth === 810)).toBe(true);
   expect(await page.locator('body').innerText()).not.toMatch(/통합치의학과 전문의|임플란트 전문의|박사|베스트셀러|임시 카피|작업자료 확인/);
   for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(a => a.getAttribute('href')))) {
     expect(await page.locator(href).count(), href).toBe(1);
@@ -105,6 +105,77 @@ for (const width of [390, 1440]) {
     expect(results.violations.map(v => ({ id: v.id, description: v.description, nodes: v.nodes.map(n => n.target) }))).toEqual([]);
   });
 }
+
+async function scrollGreeting(page, progress) {
+  await page.evaluate(progress => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    const section = document.querySelector('#greeting');
+    const stage = section.querySelector('.greeting-stage');
+    const top = section.getBoundingClientRect().top + scrollY;
+    const header = parseFloat(getComputedStyle(section).getPropertyValue('--header-height'));
+    scrollTo(0, top - header + progress * (section.offsetHeight - stage.offsetHeight));
+  }, progress);
+  await page.waitForTimeout(100);
+}
+
+for (const width of [390, 1440]) {
+  test(`30-frame reversible greeting at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    const requests = [];
+    page.on('request', request => { if (request.url().includes('/greeting/v1/')) requests.push(request.url()); });
+    await page.goto(base);
+    await expect(page.locator('#greeting')).toHaveAttribute('data-loaded-frames', '30');
+    await expect(page.locator('#greeting')).toHaveAttribute('data-variant', width < 781 ? 'mobile' : 'desktop');
+    await scrollGreeting(page, 0);
+    const initial = await page.locator('#greeting-canvas').evaluate(canvas => canvas.toDataURL());
+    await expect(page.locator('#greeting')).toHaveAttribute('data-frame', '0');
+    const firstTop = await page.locator('.greeting-stage').evaluate(el => el.getBoundingClientRect().top);
+    await scrollGreeting(page, 0.51);
+    await expect(page.locator('#greeting')).toHaveAttribute('data-frame', '29');
+    const bowed = await page.locator('#greeting-canvas').evaluate(canvas => canvas.toDataURL());
+    expect(bowed).not.toEqual(initial);
+    expect(await page.locator('.greeting-stage').evaluate(el => el.getBoundingClientRect().top)).toBeCloseTo(firstTop, 0);
+    await scrollGreeting(page, 1);
+    await expect(page.locator('#greeting')).toHaveAttribute('data-frame', '0');
+    expect(await page.locator('#greeting-canvas').evaluate(canvas => canvas.toDataURL())).toEqual(initial);
+    expect(await page.locator('h1').evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
+    const count = requests.length;
+    await scrollGreeting(page, 0.51);
+    await expect(page.locator('#greeting')).toHaveAttribute('data-frame', '29');
+    await scrollGreeting(page, 0);
+    expect(requests.length).toBe(count);
+    expect(requests.every(url => url.includes(width < 781 ? '/mobile/' : '/desktop/'))).toBe(true);
+    const before = await page.locator('#greeting').evaluate(el => el.offsetHeight);
+    await page.locator('#greeting-motion').click();
+    await expect(page.locator('#greeting')).toHaveClass(/is-static/);
+    expect(await page.locator('#greeting').evaluate(el => el.offsetHeight)).toBeLessThan(before);
+    await page.locator('#greeting-motion').click();
+    await expect(page.locator('#greeting')).toHaveClass(/is-enabled/);
+    await page.locator('.greeting-skip').click();
+    await expect(page).toHaveURL(/#opening-title$/);
+  });
+}
+
+test('reduced motion loads only the poster, not the sequence', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const frames = [];
+  page.on('request', request => { if (request.url().includes('/greeting/v1/')) frames.push(request.url()); });
+  await page.goto(base, { waitUntil: 'networkidle' });
+  await expect(page.locator('#greeting')).toHaveClass(/is-static/);
+  await expect(page.locator('#greeting-motion')).toBeDisabled();
+  expect(frames.every(url => url.includes('frame-00'))).toBe(true);
+  expect(await page.locator('h1').evaluate(el => Number(getComputedStyle(el).opacity))).toBe(1);
+});
+
+test('failed sequence falls back to the real portrait and does not trap scrolling', async ({ page }) => {
+  await page.route('**/greeting/v1/**/frame-00.webp', route => route.abort());
+  await page.goto(base);
+  await expect(page.locator('#greeting')).toHaveClass(/is-static/);
+  await expect(page.locator('#greeting-poster')).toHaveAttribute('src', '/static/moon-profile.webp');
+  await expect.poll(() => page.locator('#greeting-poster').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);
+  await page.locator('.greeting-skip').click();
+  await expect(page).toHaveURL(/#opening-title$/);
+});
 
 test('content remains available without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });

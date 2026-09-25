@@ -28,16 +28,26 @@ app.get('/', (c) => c.render(
       <nav id="main-nav" aria-label="주 메뉴"><a href="#approach">진료의 태도</a><a href="#records">글과 영상</a><a href="#about">문석준</a><a href="#visit" class="nav-visit">진료 안내 <Arrow diagonal /></a></nav>
     </header>
     <main id="main-content">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-rules" aria-hidden="true"></div>
-        <div class="hero-orbit" aria-hidden="true"><Orbit /></div>
-        <div class="hero-topline"><span>치과의사 문석준의 생각과 기록</span><span>SEOUL BD DENTAL CLINIC</span></div>
-        <h1 id="hero-title"><span class="hero-word hero-word-first">충분히</span><span class="sr-only"> </span><span class="hero-word hero-word-last">듣습니다<span class="hero-period">.</span></span></h1>
-        <figure class="portrait"><img src="/static/moon-cutout.webp" width="600" height="840" alt="검은 진료복을 입은 치과의사 문석준" fetchpriority="high" /><figcaption class="sr-only">치과의사 문석준 · 서울비디치과 대표원장</figcaption></figure>
-        <div class="hero-identity"><span class="eyebrow">DENTIST / 치과의사</span><p>문석준</p><span>서울비디치과 대표원장</span></div>
-        <div class="hero-annotation"><span class="annotation-cross" aria-hidden="true">+</span><p>듣는다는 건,<br />한 사람을<br />알아가는 일.</p><span class="annotation-rule"></span><span class="eyebrow">A CONVERSATION, FIRST</span></div>
-        <a class="hero-scroll" href="#approach"><span class="scroll-circle"><Arrow down /></span><span>저의 이야기를<br />시작합니다</span></a>
-        <div class="hero-bottomline"><span>진료실 안의 대화, 진료실 밖의 기록.</span><span>01 — 04</span></div>
+      <section class="greeting-sequence" id="greeting" aria-labelledby="hero-title">
+        <div class="hero greeting-stage">
+          <div class="hero-rules" aria-hidden="true"></div>
+          <div class="hero-orbit" aria-hidden="true"><Orbit /></div>
+          <div class="hero-topline"><span>한 사람을 만나는 마음으로.</span><span>SEOUL BD DENTAL CLINIC</span></div>
+          <div class="greeting-copy">
+            <p class="greeting-eyebrow">치과의사 문석준 · 서울비디치과 대표원장</p>
+            <p class="greeting-intro" aria-hidden="true">반갑습니다.<br /><strong>문석준입니다.</strong></p>
+            <h1 id="hero-title"><span class="hero-word hero-word-first">충분히</span><span class="sr-only"> </span><span class="hero-word hero-word-last">듣습니다<span class="hero-period">.</span></span></h1>
+            <p class="greeting-subtitle">인사를 건네고,<br />당신의 이야기를 듣겠습니다.</p>
+          </div>
+          <figure class="portrait greeting-portrait">
+            <picture><source media="(max-width: 780px)" srcSet="/static/greeting/v1/mobile/frame-00.webp" /><img id="greeting-poster" src="/static/greeting/v1/desktop/frame-00.webp" width="810" height="1080" alt="문석준의 실제 사진을 바탕으로 제작한 인사 장면" fetchpriority="high" /></picture>
+            <canvas id="greeting-canvas" width="810" height="1080" aria-hidden="true"></canvas>
+            <figcaption class="sr-only">아래로 스크롤하면 문석준이 허리를 깊이 숙여 인사하고 다시 일어납니다. 실제 사진 기반 AI 연출 영상입니다.</figcaption>
+          </figure>
+          <div class="greeting-side-note" aria-hidden="true"><span>01</span><i></i><span>인사로 시작하는 대화</span></div>
+          <div class="greeting-controls"><a class="greeting-skip" href="#opening-title">인사 건너뛰기 <Arrow /></a><button id="greeting-motion" class="greeting-motion" aria-pressed="false">모션 끄기</button></div>
+          <div class="greeting-bottom"><span class="greeting-scroll-cue"><Arrow down /><span id="greeting-cue">스크롤로 인사를 나눠보세요</span></span><div class="greeting-timeline" aria-hidden="true"><span>HELLO</span><i><b></b></i><span>LISTEN</span></div><span class="greeting-disclosure">실제 사진 기반 AI 인사 영상</span></div>
+        </div>
       </section>
 
       <section class="opening-section" aria-labelledby="opening-title">

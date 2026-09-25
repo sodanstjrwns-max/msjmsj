@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "frameCount": 30,
+  "sourceFps": 24,
+  "sourceFrameIndices": [
+    0,
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    17,
+    19,
+    21,
+    23,
+    25,
+    27,
+    29,
+    31,
+    33,
+    35,
+    37,
+    39,
+    41,
+    43,
+    46,
+    48,
+    50,
+    52,
+    54,
+    56,
+    58,
+    60
+  ],
+  "sourceDurationUsed": 2.5,
+  "playback": "standing-to-bow, then same frames in reverse",
+  "aiGeneratedFromPersonalPhoto": true,
+  "alphaMatte": "edge-connected brown backdrop only",
+  "variants": {
+    "desktop": {
+      "width": 810,
+      "height": 1080,
+      "totalBytes": 1029110
+    },
+    "mobile": {
+      "width": 432,
+      "height": 576,
+      "totalBytes": 454808
+    }
+  }
+}
