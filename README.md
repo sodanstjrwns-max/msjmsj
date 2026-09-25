@@ -7,7 +7,7 @@
 - 미리보기: https://3000-izzaj9m15pt6fbzab9xou-de59bda9.sandbox.novita.ai/?v=5-logo
 - **사용자 승인으로 본인 Cloudflare 계정에 Pages 배포 완료.** 운영 주소: https://webapp-bp7.pages.dev
 - GitHub 저장소: https://github.com/sodanstjrwns-max/msjmsj (`main`).
-- 2026-09-25: 공식 개인 홈페이지 주소 https://moon.bdbddc.com 연결. 기존 Pages 프로젝트 `webapp`과 배포를 그대로 사용한다. 검색 제외 메타·헤더·robots.txt는 유지하며, 검색 공개는 별도 작업이다. 인증/접근 제한이 아니므로 주소를 아는 사람은 접근 가능하다.
+- 2026-09-25: 공식 개인 홈페이지 주소 https://moon.bdbddc.com 연결. 기존 Pages 프로젝트 `webapp`과 배포를 그대로 사용한다. 2026-09-25 검색 공개 승인으로 공식 도메인에 index/follow, canonical, sitemap.xml 및 검색엔진 인증을 적용했다. 미리보기 호스트는 noindex를 유지한다. 인증/접근 제한이 아니므로 주소를 아는 사람은 접근 가능하다.
 - Hono JSX/TypeScript, Vite, 자체 CSS/JS, Cloudflare Pages 호환. 사용자 데이터 저장·문의 폼·가입·결제·추적 없음.
 
 ## 이번 수정: 문석준 한글 워드마크
@@ -20,7 +20,7 @@
 - 로고 원본: https://www.genspark.ai/api/files/s/1vMDvwG5
 - 로고 미리보기: https://www.genspark.ai/api/files/s/0DVJF2sH
 - 현재 요청 범위는 로고 교체다. 이전 요청인 질문 콘텐츠 확장과 줄 단위 제목 등장 모션은 아직 미구현이며 다음 작업으로 남아 있다. 미구현 `/questions` 링크는 노출하지 않는다.
-- 로고 적용 후 사용자 승인으로 Pages 배포. 이후 사용자 승인으로 `moon.bdbddc.com` 연결 완료. 검색 노출 전환은 보류.
+- 로고 적용 후 사용자 승인으로 Pages 배포. 이후 사용자 승인으로 `moon.bdbddc.com` 연결 완료. 검색 공개 전환은 아래 검색 운영 항목 참조.
 
 ## 이전 수정: 서체, 모션, 유리 표현
 
@@ -109,7 +109,8 @@ https://raw.githubusercontent.com/sodanstjrwns-max/bdbddc/main/images/doctors/mo
 | `/#records` | 실제 소개 영상·칼럼·책 2권, 콘텐츠 필터 |
 | `/#about` | 검증 가능한 약력, 접힌 운영 관련 저서 |
 | `/#visit` | 실제 병원 예약·위치·이용 안내 |
-| `/robots.txt` | 검색 제외 요청 |
+| `/robots.txt` | 공식 도메인 수집 허용 및 사이트맵 위치 안내 |
+| `/sitemap.xml` | 공식 홈 주소 하나 (해시 섹션은 별도 페이지 아님) |
 
 키보드 탭/Home/End/방향키, ARIA, 메뉴 Escape·외부 클릭 닫기, 본문 건너뛰기 지원. 외부 링크 새 탭 안내 및 noopener noreferrer. YouTube는 선택 후에만 연결. JS가 없어도 본문과 실제 목적지 유지. 영구 저장·쿠키·localStorage·추적 없음.
 
@@ -172,4 +173,14 @@ npm test
 
 기존 서버 중복 시작 금지. 재시작은 PM2 정지 → 포트 3000 확인 → 빌드 → PM2 재시작. 로그 `pm2 logs webapp --nostream`.
 
-공개 전 본인 얼굴·동작·문안·생성 인사 사용 범위, 대표 콘텐츠 및 저술 노출을 검토한다. 의료 자격 증빙은 별도. `moon.bdbddc.com` DNS/HTTPS 연결은 완료했다. 검색 공개를 진행할 때 canonical/OG/사이트맵 및 검색 제외 해제를 함께 처리한다. 병원 의료진 페이지에서 개인 사이트로 연결하는 작업은 별도이며 병원 사이트는 수정하지 않았다.
+공개 전 본인 얼굴·동작·문안·생성 인사 사용 범위, 대표 콘텐츠 및 저술 노출을 검토한다. 의료 자격 증빙은 별도. `moon.bdbddc.com` DNS/HTTPS 연결은 완료했다. 사용자의 검색 등록 요청에 따라 canonical/OG/사이트맵 및 공식 도메인의 검색 허용을 적용했다. 병원 의료진 페이지의 개인 사이트 링크는 별도 병원 저장소 커밋 bec83d64로 배포되어 있다.
+
+## 검색 운영 (2026-09-25)
+
+- 공식 URL: https://moon.bdbddc.com/ · 기본 Pages 호스트 webapp-bp7.pages.dev는 경로·쿼리를 보존한 301 이동.
+- 공식 호스트만 index/follow; 배포 미리보기·로컬 및 오류 응답은 noindex.
+- 사이트맵: https://moon.bdbddc.com/sitemap.xml · src/site.ts의 LAST_MODIFIED는 실제 페이지가 바뀔 때만 갱신.
+- Person/ProfilePage/WebSite JSON-LD 및 실제 프로필 사진의 공유 메타데이터 사용.
+- IndexNow 공개 소유확인 파일: `4f2409a5d03ef592d4bd44fe9d086184.txt` (로그인 비밀이 아닌 공개 URL 소유확인용).
+- 검색엔진 등록/접수는 색인 완료나 순위를 보장하지 않음. 등록 결과 근거: /Users/msj/bddc/reports/2026-09-25-moon-search-launch/.
+- 로컬 공통 작업 폴더: /Users/msj/msjmsj. Git 최신 상태를 확인해 Genspark 변경과 충돌하지 않도록 한다.

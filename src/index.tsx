@@ -2,16 +2,29 @@ import { Hono } from 'hono'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { renderer } from './renderer'
 import { SiteHeader, SiteFooter } from './brand'
+import { isPublicSite, SITE_ORIGIN, SITE_URL, SITE_LAST_MODIFIED } from './site'
 
 const app = new Hono()
 app.use('*', async (c, next) => {
-  c.header('X-Robots-Tag', 'noindex, nofollow, noarchive')
+  const url = new URL(c.req.url)
+  if (url.hostname === 'webapp-bp7.pages.dev') {
+    return c.redirect(`${SITE_ORIGIN}${url.pathname}${url.search}`, 301)
+  }
   c.header('X-Content-Type-Options', 'nosniff')
   c.header('Referrer-Policy', 'strict-origin-when-cross-origin')
   await next()
+  if (!isPublicSite(c.req.url) || c.res.status >= 400) {
+    c.header('X-Robots-Tag', 'noindex, nofollow')
+  }
 })
 app.use('/static/*', serveStatic({ root: './public' }))
-app.get('/robots.txt', (c) => c.text('User-agent: *\nDisallow: /\n'))
+app.get('/robots.txt', (c) => c.text(isPublicSite(c.req.url)
+  ? `User-agent: *\nAllow: /\n\nSitemap: ${SITE_ORIGIN}/sitemap.xml\n`
+  : 'User-agent: *\nDisallow: /\n'))
+app.get('/sitemap.xml', (c) => c.body(
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${SITE_URL}</loc><lastmod>${SITE_LAST_MODIFIED}</lastmod></url></urlset>\n`,
+  200, { 'Content-Type': 'application/xml; charset=utf-8' }
+))
 app.use(renderer)
 
 const Arrow = ({ diagonal = false, down = false }: { diagonal?: boolean; down?: boolean }) => <svg class={`arrow ${down ? 'arrow-down' : ''}`} width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">{diagonal ? <path d="M6 18 18 6M6 6h12v12" /> : <path d="M4 12h15m-6-6 6 6-6 6" />}</svg>

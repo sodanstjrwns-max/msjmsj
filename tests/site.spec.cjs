@@ -30,10 +30,12 @@ test('content, metadata, links and light initial load', async ({ page }) => {
   const response = await page.goto(base);
   await page.evaluate(() => document.fonts.ready);
   expect(response.status()).toBe(200);
-  expect(response.headers()['x-robots-tag']).toContain('noindex');
+  const publicSite = new URL(base).hostname === 'moon.bdbddc.com';
+  expect(response.headers()['x-robots-tag'] || '').toBe(publicSite ? '' : 'noindex, nofollow');
   await expect(page).toHaveTitle('치과의사 문석준 — 충분히 듣습니다');
   await expect(page.locator('h1')).toHaveText('충분히 듣습니다.');
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', publicSite ? 'index, follow, max-image-preview:large' : 'noindex, nofollow');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://moon.bdbddc.com/');
   expect(await page.locator('.portrait img').evaluate(img => img.complete && img.naturalWidth === 810)).toBe(true);
   expect(await page.locator('body').innerText()).not.toMatch(/통합치의학과 전문의|임플란트 전문의|박사|베스트셀러|임시 카피|작업자료 확인/);
   for (const href of await page.locator('a[href^="#"]').evaluateAll(links => links.map(a => a.getAttribute('href')))) {
