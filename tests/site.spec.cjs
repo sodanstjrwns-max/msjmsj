@@ -2,6 +2,26 @@ const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 const base = process.env.TEST_URL || 'http://localhost:3000';
 
+test('custom Hangul wordmark replaces seal and remains accessible', async ({ page, request }) => {
+  await page.goto(base);
+  await expect(page.locator('.wordmark-brand')).toHaveCount(2);
+  await expect(page.locator('.name-logo')).toHaveCount(2);
+  await expect(page.locator('.seal')).toHaveCount(0);
+  for (const brand of await page.locator('.wordmark-brand').all()) {
+    await expect(brand).toHaveAttribute('aria-label', '치과의사 문석준, 처음으로');
+    await expect(brand.locator('svg path')).toHaveCount(3);
+  }
+  const logo = await request.get(`${base}/static/moon-wordmark.svg`);
+  expect(logo.status()).toBe(200);
+  expect(await logo.text()).toContain('<title id="title">문석준</title>');
+  const favicon = await request.get(`${base}/static/favicon.svg`);
+  expect(favicon.status()).toBe(200);
+  expect(await favicon.text()).toContain('viewBox="0 0 96 96"');
+  for (const href of await page.locator('a[href^="/"]:not([href^="//"])').evaluateAll(links => links.map(a => a.getAttribute('href')))) {
+    expect((await request.get(`${base}${href}`)).status(), href).toBe(200);
+  }
+});
+
 test('content, metadata, links and light initial load', async ({ page }) => {
   const errors = [];
   const thirdParty = [];

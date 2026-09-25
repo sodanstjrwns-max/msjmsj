@@ -4,11 +4,23 @@
 
 - 코드명 `webapp`, `/home/user/webapp`, Git `main`.
 - 2026-09-25: **브라운 그라데이션 + 리퀴드 글라스 스타일 + 시스템 우선 타이포그래피 + 감속 스크롤 모션** 적용.
-- 미리보기: https://3000-izzaj9m15pt6fbzab9xou-de59bda9.sandbox.novita.ai/?v=4
+- 미리보기: https://3000-izzaj9m15pt6fbzab9xou-de59bda9.sandbox.novita.ai/?v=5-logo
 - **정식 배포와 도메인 연결은 하지 않았다.** 검색 제외 메타·헤더·robots.txt 유지. 인증/접근 제한이 아니므로 주소를 아는 사람은 접근 가능하다.
 - Hono JSX/TypeScript, Vite, 자체 CSS/JS, Cloudflare Pages 호환. 사용자 데이터 저장·문의 폼·가입·결제·추적 없음.
 
-## 이번 수정: 서체, 모션, 유리 표현
+## 이번 수정: 문석준 한글 워드마크
+
+- 이름 자체를 읽을 수 있는 기하학적 한글 SVG를 직접 제작. 둥근 획과 끝의 마침표를 사용하며 외부 폰트에 의존하지 않는다.
+- `src/brand.tsx`에서 상단과 하단의 공통 로고를 관리. 브라운/밝은 배경에서는 currentColor로 대응.
+- `/static/moon-wordmark.svg`: 브라운 벡터 원본. `/static/favicon.svg`: 정사각형 ‘문’ 모노그램.
+- 기존 사각 심벌을 교체. AI 이미지 생성 모델 추가 호출 없음.
+- 모바일·데스크톱 실화면 캡처와 로고 판독 검토 완료. 22개 회귀 테스트 통과.
+- 로고 원본: https://www.genspark.ai/api/files/s/1vMDvwG5
+- 로고 미리보기: https://www.genspark.ai/api/files/s/0DVJF2sH
+- 현재 요청 범위는 로고 교체다. 이전 요청인 질문 콘텐츠 확장과 줄 단위 제목 등장 모션은 아직 미구현이며 다음 작업으로 남아 있다. 미구현 `/questions` 링크는 노출하지 않는다.
+- 정식 배포·도메인 연결·검색 노출은 계속 보류.
+
+## 이전 수정: 서체, 모션, 유리 표현
 
 사용자는 애플 같은 폰트와 움직임, 갈색 그라데이션 및 강한 리퀴드 글라스 표현을 요청했다. 인물·콘텐츠·비디 브랜드 갈색·기존 인사 영상은 유지했다. 이번 수정에서는 이미지/영상 모델을 추가 호출하지 않았다.
 
@@ -116,7 +128,7 @@ https://raw.githubusercontent.com/sodanstjrwns-max/bdbddc/main/images/doctors/mo
 
 ## 검증과 결과 파일
 
-`npm test`: **21개 통과**.
+`npm test`: **22개 통과**. 로고 접근성 이름·SVG 원본·파비콘·내부 경로 검사 포함.
 
 - 320~1920px 8개 너비의 가로 넘침/제목/탭, 메뉴·필터·키보드·외부 링크.
 - 390/1440px 30프레임 0→29→0 및 동일 시작/종료 Canvas 픽셀, 되감김 시 추가 요청 없음.
@@ -127,7 +139,8 @@ https://raw.githubusercontent.com/sodanstjrwns-max/bdbddc/main/images/doctors/mo
 - 실제 미리보기 JS 오류 0, 데스크톱/모바일 페이지 가로 넘침 없음.
 - 전체 접근성 인증이나 모든 실기기 검증은 아님. iPhone/Android 실기기에서 최종 체감 확인 필요.
 
-최신 캡처: `artifacts/glass-{desktop|mobile}-{start|end|records}.png`.
+최신 로고 캡처: `artifacts/wordmark-{desktop|mobile|footer|header}.png`, `artifacts/moon-wordmark-preview.png`.
+이전 글라스 캡처: `artifacts/glass-{desktop|mobile}-{start|end|records}.png`.
 합본: `artifacts/liquid-glass-overview.jpg`.
 실제 모션 녹화: `artifacts/liquid-glass-demo.mp4`.
 그 밖의 greeting-* 및 desktop-full 등은 이전 버전 기록이다.

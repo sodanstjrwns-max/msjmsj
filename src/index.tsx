@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { serveStatic } from 'hono/cloudflare-workers'
 import { renderer } from './renderer'
+import { SiteHeader, SiteFooter } from './brand'
 
 const app = new Hono()
 app.use('*', async (c, next) => {
@@ -15,17 +16,11 @@ app.use(renderer)
 
 const Arrow = ({ diagonal = false, down = false }: { diagonal?: boolean; down?: boolean }) => <svg class={`arrow ${down ? 'arrow-down' : ''}`} width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">{diagonal ? <path d="M6 18 18 6M6 6h12v12" /> : <path d="M4 12h15m-6-6 6 6-6 6" />}</svg>
 const External = ({ href, children, class: className = '' }: { href: string; children: any; class?: string }) => <a href={href} class={className} target="_blank" rel="noopener noreferrer">{children}<span class="sr-only"> (새 탭)</span></a>
-const Seal = () => <svg class="seal" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M7 7h50v50H7zM19 18h25v11H19zM18 39h27M31 30v15M19 45h25" stroke="currentColor" stroke-width="1.5" /></svg>
 
 app.get('/', (c) => c.render(
   <>
     <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
-    <header class="site-header" id="top">
-      <a href="#top" class="brand" aria-label="치과의사 문석준, 처음으로"><Seal /><span><small>치과의사</small>문석준</span></a>
-      <span class="header-note">한 사람의 이야기에서 시작하는 진료</span>
-      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-nav"><span>메뉴</span><span class="menu-lines" aria-hidden="true"></span></button>
-      <nav id="main-nav" aria-label="주 메뉴"><a href="#approach">진료의 태도</a><a href="#records">글과 영상</a><a href="#about">문석준</a><a href="#visit" class="nav-visit">진료 안내 <Arrow diagonal /></a></nav>
-    </header>
+    <SiteHeader home />
     <main id="main-content">
       <section class="greeting-sequence" id="greeting" aria-labelledby="hero-title">
         <div class="hero greeting-stage">
@@ -91,7 +86,7 @@ app.get('/', (c) => c.render(
 
       <section class="visit-section" id="visit" aria-labelledby="visit-title"><div class="section-heading"><span><i>04</i> SEE YOU IN PERSON</span><span>진료 안내</span></div><div class="visit-layout"><div><h2 id="visit-title" class="reveal">다음 이야기는,<br /><span>진료실에서.</span></h2><p>천안의 서울비디치과에서 진료하고 있습니다.<br />진료 일정과 예약 방법은 병원 공식 안내를 확인해 주세요.</p></div><External href="https://bdbddc.com/reservation?doctor=moon" class="visit-primary"><span class="eyebrow">SEOUL BD</span><Arrow diagonal /><span>문석준 원장<br />진료 예약 안내</span></External></div><div class="visit-bottom"><span>예약 및 진료 문의는 병원에서 안내해 드립니다.</span><External href="https://bdbddc.com" class="text-link">서울비디치과 위치·이용 안내 <Arrow diagonal /></External></div></section>
     </main>
-    <footer class="site-footer"><div class="footer-top"><a href="#top" class="brand"><Seal /><span><small>치과의사</small>문석준</span></a><p>진료실 안의 대화가,<br />진료실 밖에서도 도움이 되기를.</p><a href="#top" class="back-top">BACK TO TOP <Arrow down /></a></div><div class="footer-wordmark" aria-hidden="true">충분히 듣습니다.</div><div class="footer-bottom"><span>© {new Date().getFullYear()} 문석준</span><span>치과의사 문석준의 독립 개인 홈페이지</span><span>LISTEN. UNDERSTAND. TOGETHER.</span></div></footer>
+    <SiteFooter />
     <div class="reading-progress" aria-hidden="true"></div>
   </>
 ))
