@@ -11,6 +11,7 @@ export const renderer = jsxRenderer(({ children }, c) => (
       <meta name="robots" content={isPublicSite(c.req.url) ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'} />
       <link rel="canonical" href={SITE_URL} />
       <meta name="msvalidate.01" content="DE25BB74F967C93899AB1AF1C912A5D9" />
+      <meta name="naver-site-verification" content="96235a9b73c20fc8a9e42932537d2712edbb8de1" />
       <meta name="theme-color" content="#6b4226" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content="치과의사 문석준 — 충분히 듣습니다" />
