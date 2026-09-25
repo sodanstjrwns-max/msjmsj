@@ -115,7 +115,10 @@ async function scrollGreeting(page, progress) {
     const header = parseFloat(getComputedStyle(section).getPropertyValue('--header-height'));
     scrollTo(0, top - header + progress * (section.offsetHeight - stage.offsetHeight));
   }, progress);
-  await page.waitForTimeout(100);
+  await page.waitForFunction(progress => {
+    const state = document.querySelector('#greeting').dataset;
+    return state.settled === 'true' && Math.abs(Number(state.targetProgress) - progress) < 0.002;
+  }, progress);
 }
 
 for (const width of [390, 1440]) {
@@ -175,6 +178,44 @@ test('failed sequence falls back to the real portrait and does not trap scrollin
   await expect.poll(() => page.locator('#greeting-poster').evaluate(image => image.complete && image.naturalWidth > 0)).toBe(true);
   await page.locator('.greeting-skip').click();
   await expect(page).toHaveURL(/#opening-title$/);
+});
+
+test('damped motion converges without overshoot and stops rendering at rest', async ({ page }) => {
+  await page.goto(base, { waitUntil: 'networkidle' });
+  await expect(page.locator('#greeting')).toHaveAttribute('data-loaded-frames', '30');
+  await scrollGreeting(page, 0);
+  await page.evaluate(() => {
+    const section = document.querySelector('#greeting');
+    const stage = section.querySelector('.greeting-stage');
+    const header = parseFloat(getComputedStyle(section).getPropertyValue('--header-height'));
+    scrollTo(0, section.getBoundingClientRect().top + scrollY - header + 0.51 * (section.offsetHeight - stage.offsetHeight));
+  });
+  await expect.poll(() => page.locator('#greeting').evaluate(el => Number(el.dataset.targetProgress))).toBeGreaterThan(0.5);
+  const early = await page.locator('#greeting').evaluate(el => Number(el.dataset.progress));
+  expect(early).toBeGreaterThan(0);
+  expect(early).toBeLessThan(0.51);
+  await expect(page.locator('#greeting')).toHaveAttribute('data-settled', 'true');
+  await expect(page.locator('#greeting')).toHaveAttribute('data-frame', '29');
+  const count = await page.locator('#greeting').getAttribute('data-render-count');
+  await page.waitForTimeout(250);
+  await expect(page.locator('#greeting')).toHaveAttribute('data-render-count', count);
+});
+
+test('system-first typography and glass effects use no external font assets', async ({ page }) => {
+  await page.goto(base, { waitUntil: 'networkidle' });
+  const styles = await page.evaluate(() => ({
+    font: getComputedStyle(document.body).fontFamily,
+    weight: getComputedStyle(document.querySelector('.greeting-intro')).fontWeight,
+    glass: getComputedStyle(document.querySelector('.greeting-controls')).backdropFilter,
+    background: getComputedStyle(document.querySelector('.greeting-stage')).backgroundImage,
+    fontRequests: performance.getEntriesByType('resource').filter(r => /woff|apple.com.*fonts/.test(r.name)).map(r => r.name)
+  }));
+  expect(styles.font).toContain('-apple-system');
+  expect(styles.font).not.toContain('Georgia');
+  expect(styles.weight).toBe('600');
+  expect(styles.glass).toContain('blur');
+  expect(styles.background).toContain('gradient');
+  expect(styles.fontRequests.every(url => url.startsWith(base))).toBe(true);
 });
 
 test('content remains available without JavaScript', async ({ browser }) => {

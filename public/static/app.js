@@ -104,6 +104,9 @@
     let paused = saveData, failed = !context, enabled = false, requested = false;
     let lastFrame = -1;
     let lastCue = '';
+    let displayedProgress = 0, previousTime = 0, hasPosition = false, animationId = 0;
+    let renderCount = 0;
+    const geometry = { start: 0, range: 1 };
     canvas.width = dimensions[0]; canvas.height = dimensions[1];
     section.dataset.variant = variant;
     section.dataset.frameCount = '30';
@@ -114,27 +117,47 @@
     function setCue(text) {
       if (text !== lastCue) { cue.textContent = text; lastCue = text; }
     }
-    function schedule() {
-      if (!requested) { requested = true; requestAnimationFrame(render); }
-    }
-    function render() {
-      requested = false;
-      if (!enabled || !context) return;
+    function measure() {
       const headerHeight = parseFloat(getComputedStyle(section).getPropertyValue('--header-height')) || 0;
-      const range = Math.max(1, section.offsetHeight - stage.offsetHeight);
-      const position = clamp((headerHeight - section.getBoundingClientRect().top) / range);
+      geometry.start = section.getBoundingClientRect().top + window.scrollY - headerHeight;
+      geometry.range = Math.max(1, section.offsetHeight - stage.offsetHeight);
+      schedule();
+    }
+    function schedule() {
+      if (!requested && enabled && !document.hidden) {
+        requested = true;
+        animationId = requestAnimationFrame(render);
+      }
+    }
+    function render(time) {
+      requested = false;
+      if (!enabled || !context || document.hidden) { previousTime = 0; return; }
+      const targetProgress = clamp((window.scrollY - geometry.start) / geometry.range);
+      const elapsed = previousTime ? Math.min(40, time - previousTime) : 16.67;
+      previousTime = time;
+      // Frame-rate-independent exponential damping: no spring overshoot, no scroll hijack.
+      // A 90 ms time constant gives responsive movement with a gentle, finite settling tail.
+      if (!hasPosition) { displayedProgress = targetProgress; hasPosition = true; }
+      else displayedProgress += (targetProgress - displayedProgress) * (1 - Math.exp(-elapsed / 90));
+      const settled = Math.abs(targetProgress - displayedProgress) < 0.0001;
+      if (settled) displayedProgress = targetProgress;
+      const position = displayedProgress;
+      section.dataset.targetProgress = targetProgress.toFixed(4);
+      section.dataset.settled = String(settled);
+      section.dataset.renderCount = String(++renderCount);
       // A brief greeting, a slow descent, a pause, then the same natural return.
       let bow = 0;
       if (position > 0.06 && position < 0.47) bow = (position - 0.06) / 0.41;
       else if (position >= 0.47 && position <= 0.56) bow = 1;
       else if (position > 0.56 && position < 0.94) bow = 1 - (position - 0.56) / 0.38;
       const target = Math.round(clamp(bow) * 29);
-      const outro = clamp((position - 0.73) / 0.2);
-      const intro = 1 - clamp((position - 0.13) / 0.14);
+      const smoothstep = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
+      const outro = smoothstep((position - 0.73) / 0.2);
+      const intro = 1 - smoothstep((position - 0.13) / 0.14);
       section.style.setProperty('--intro-opacity', String(intro));
       section.style.setProperty('--outro-opacity', String(outro));
-      section.style.setProperty('--intro-y', `${-18 * (1 - intro)}px`);
-      section.style.setProperty('--outro-y', `${22 * (1 - outro)}px`);
+      section.style.setProperty('--intro-y', `${-12 * (1 - intro)}px`);
+      section.style.setProperty('--outro-y', `${18 * (1 - outro)}px`);
       section.style.setProperty('--greeting-progress', String(position));
       section.dataset.progress = position.toFixed(3);
       section.dataset.targetFrame = String(target);
@@ -155,6 +178,8 @@
         section.classList.add('is-ready');
       }
       setCue(position < 0.09 ? '스크롤로 인사를 나눠보세요' : position < 0.57 ? '반가운 마음을 담아 인사합니다' : position < 0.93 ? '이제, 당신의 이야기를 듣겠습니다' : '아래로 이야기가 이어집니다');
+      if (!settled) schedule();
+      else previousTime = 0;
     }
     function loadFrame(index) {
       activeLoads++; attempts[index]++;
@@ -205,26 +230,61 @@
       button.setAttribute('aria-pressed', String(!enabled));
       button.textContent = preference.matches ? '움직임 감소 설정 적용' : failed ? '정지 이미지로 보기' : enabled ? '모션 끄기' : '모션 켜기';
       if (!enabled) {
+        cancelAnimationFrame(animationId);
+        requested = false; previousTime = 0; hasPosition = false;
+        section.dataset.settled = 'true';
         section.style.removeProperty('--intro-opacity'); section.style.removeProperty('--outro-opacity');
         section.style.removeProperty('--outro-y');
         setCue(failed ? '아래로 이야기가 이어집니다' : '정지 이미지로 보고 있습니다');
       } else {
-        pump(); schedule();
+        measure(); pump(); schedule();
       }
       // Collapsing a pinned section must not throw the visitor down the page.
-      if (previouslyEnabled && !enabled && inside) window.scrollTo({ top: sectionTop - 70, behavior: 'instant' });
+      if (previouslyEnabled && !enabled && inside) {
+        const headerHeight = parseFloat(getComputedStyle(section).getPropertyValue('--header-height')) || 0;
+        window.scrollTo({ top: sectionTop - headerHeight, behavior: 'instant' });
+      }
     }
     button.addEventListener('click', () => { paused = !paused; configure(); });
     preference.addEventListener('change', configure);
     window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule, { passive: true });
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) { pump(); schedule(); } });
-    if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(stage);
+    window.addEventListener('resize', measure, { passive: true });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { cancelAnimationFrame(animationId); requested = false; previousTime = 0; }
+      else { measure(); pump(); schedule(); }
+    });
+    if ('ResizeObserver' in window) new ResizeObserver(measure).observe(stage);
+    document.fonts.ready.then(measure);
     configure();
   }
   initGreeting();
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // CSS-only glass material, with a small pointer-following highlight on fine pointers.
+  // The reflection does not warp the portrait, run on touch, or animate indefinitely.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.greeting-controls,.record-filters,.play-button,.visit-primary').forEach(surface => {
+      let bounds, pending = false, x = 50, y = 18;
+      surface.addEventListener('pointerenter', () => { bounds = surface.getBoundingClientRect(); });
+      surface.addEventListener('pointermove', event => {
+        if (reducedMotion.matches || !bounds) return;
+        x = Math.max(0, Math.min(100, (event.clientX - bounds.left) / bounds.width * 100));
+        y = Math.max(0, Math.min(100, (event.clientY - bounds.top) / bounds.height * 100));
+        if (!pending) {
+          pending = true;
+          requestAnimationFrame(() => {
+            surface.style.setProperty('--glass-x', `${x.toFixed(1)}%`);
+            surface.style.setProperty('--glass-y', `${y.toFixed(1)}%`);
+            pending = false;
+          });
+        }
+      });
+      surface.addEventListener('pointerleave', () => {
+        x = 50; y = 18;
+        surface.style.removeProperty('--glass-x'); surface.style.removeProperty('--glass-y');
+      });
+    });
+  }
   const header = document.querySelector('.site-header');
   const progress = document.querySelector('.reading-progress');
   const orbit = document.querySelector('.hero-orbit');

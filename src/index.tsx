@@ -16,7 +16,6 @@ app.use(renderer)
 const Arrow = ({ diagonal = false, down = false }: { diagonal?: boolean; down?: boolean }) => <svg class={`arrow ${down ? 'arrow-down' : ''}`} width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">{diagonal ? <path d="M6 18 18 6M6 6h12v12" /> : <path d="M4 12h15m-6-6 6 6-6 6" />}</svg>
 const External = ({ href, children, class: className = '' }: { href: string; children: any; class?: string }) => <a href={href} class={className} target="_blank" rel="noopener noreferrer">{children}<span class="sr-only"> (새 탭)</span></a>
 const Seal = () => <svg class="seal" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M7 7h50v50H7zM19 18h25v11H19zM18 39h27M31 30v15M19 45h25" stroke="currentColor" stroke-width="1.5" /></svg>
-const Orbit = () => <svg viewBox="0 0 800 800" fill="none" aria-hidden="true"><ellipse cx="400" cy="400" rx="330" ry="250" transform="rotate(-35 400 400)" /><ellipse cx="400" cy="400" rx="335" ry="165" transform="rotate(-35 400 400)" /><ellipse cx="400" cy="400" rx="335" ry="72" transform="rotate(-35 400 400)" /><path d="M80 600 720 160M270 0v800" /><circle cx="180" cy="550" r="6" /></svg>
 
 app.get('/', (c) => c.render(
   <>
@@ -31,7 +30,7 @@ app.get('/', (c) => c.render(
       <section class="greeting-sequence" id="greeting" aria-labelledby="hero-title">
         <div class="hero greeting-stage">
           <div class="hero-rules" aria-hidden="true"></div>
-          <div class="hero-orbit" aria-hidden="true"><Orbit /></div>
+          <div class="hero-orbit liquid-halo" aria-hidden="true"><span></span><span></span></div>
           <div class="hero-topline"><span>한 사람을 만나는 마음으로.</span><span>SEOUL BD DENTAL CLINIC</span></div>
           <div class="greeting-copy">
             <p class="greeting-eyebrow">치과의사 문석준 · 서울비디치과 대표원장</p>
