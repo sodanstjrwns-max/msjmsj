@@ -5,7 +5,9 @@
 - 코드명 `webapp`, `/home/user/webapp`, Git `main`.
 - 2026-09-25: **브라운 그라데이션 + 리퀴드 글라스 스타일 + 시스템 우선 타이포그래피 + 감속 스크롤 모션** 적용.
 - 미리보기: https://3000-izzaj9m15pt6fbzab9xou-de59bda9.sandbox.novita.ai/?v=5-logo
-- **정식 배포와 도메인 연결은 하지 않았다.** 검색 제외 메타·헤더·robots.txt 유지. 인증/접근 제한이 아니므로 주소를 아는 사람은 접근 가능하다.
+- **사용자 승인으로 본인 Cloudflare 계정에 Pages 배포 완료.** 운영 주소: https://webapp-bp7.pages.dev
+- GitHub 저장소: https://github.com/sodanstjrwns-max/msjmsj (`main`).
+- 커스텀 도메인은 연결하지 않았다. 검색 제외 메타·헤더·robots.txt 유지. 인증/접근 제한이 아니므로 주소를 아는 사람은 접근 가능하다.
 - Hono JSX/TypeScript, Vite, 자체 CSS/JS, Cloudflare Pages 호환. 사용자 데이터 저장·문의 폼·가입·결제·추적 없음.
 
 ## 이번 수정: 문석준 한글 워드마크
@@ -18,7 +20,7 @@
 - 로고 원본: https://www.genspark.ai/api/files/s/1vMDvwG5
 - 로고 미리보기: https://www.genspark.ai/api/files/s/0DVJF2sH
 - 현재 요청 범위는 로고 교체다. 이전 요청인 질문 콘텐츠 확장과 줄 단위 제목 등장 모션은 아직 미구현이며 다음 작업으로 남아 있다. 미구현 `/questions` 링크는 노출하지 않는다.
-- 정식 배포·도메인 연결·검색 노출은 계속 보류.
+- 로고 적용 후 사용자 승인으로 Pages 배포. 커스텀 도메인·검색 노출 전환은 보류.
 
 ## 이전 수정: 서체, 모션, 유리 표현
 
@@ -145,7 +147,19 @@ https://raw.githubusercontent.com/sodanstjrwns-max/bdbddc/main/images/doctors/mo
 실제 모션 녹화: `artifacts/liquid-glass-demo.mp4`.
 그 밖의 greeting-* 및 desktop-full 등은 이전 버전 기록이다.
 
-## 실행과 공개 전 작업
+## 배포 상태와 재배포
+
+- 방식: 사용자 소유 Cloudflare 계정, Wrangler 직접 업로드.
+- Pages 프로젝트 이름: `webapp` (프로젝트 이름과 실제 서브도메인 `webapp-bp7`은 다름).
+- 운영 브랜치: `main`.
+- 최초 배포: https://b11ff7aa.webapp-bp7.pages.dev (앱 커밋 `293bca7`).
+- 로컬 및 운영 주소에서 각각 Playwright 22개 테스트 통과.
+- GitHub 코드는 별도 push로 동기화한다. **GitHub push 자동 배포 파이프라인은 구성하지 않았다.**
+- 재배포: Deploy 패널의 API 토큰 설정 후 `npm run build && npx wrangler pages deploy dist --project-name webapp --branch main`.
+- 운영 검증: `TEST_URL=https://webapp-bp7.pages.dev npm test`.
+- 토큰은 환경변수로만 사용하고 저장소에 포함하지 않는다. 런타임 외부 API·데이터베이스 없음.
+
+## 실행과 검색 공개 전 작업
 
 ```sh
 cd /home/user/webapp
@@ -157,4 +171,4 @@ npm test
 
 기존 서버 중복 시작 금지. 재시작은 PM2 정지 → 포트 3000 확인 → 빌드 → PM2 재시작. 로그 `pm2 logs webapp --nostream`.
 
-공개 전 본인 얼굴·동작·문안·생성 인사 사용 범위, 대표 콘텐츠 및 저술 노출을 검토한다. 의료 자격 증빙은 별도. 이후 배포 경로·도메인을 선택하고 DNS/HTTPS, canonical/OG/사이트맵, 검색 제외 해제를 진행한다. 병원 의료진 페이지에서 개인 사이트로 연결하는 작업은 별도이며 병원 사이트는 수정하지 않았다.
+공개 전 본인 얼굴·동작·문안·생성 인사 사용 범위, 대표 콘텐츠 및 저술 노출을 검토한다. 의료 자격 증빙은 별도. 추후 도메인과 검색 공개 승인을 받으면 DNS/HTTPS, canonical/OG/사이트맵, 검색 제외 해제를 진행한다. 병원 의료진 페이지에서 개인 사이트로 연결하는 작업은 별도이며 병원 사이트는 수정하지 않았다.
