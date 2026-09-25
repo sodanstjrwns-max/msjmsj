@@ -6,13 +6,14 @@
 
 ## 진행 중 작업
 
-- Codex · 2026-09-25T22:27:43.103984+09:00 · 개인 홈페이지 자기소개를 인스타 확인 원문 기반의 5장 이야기로 확장. 범위 /Users/msj/msjmsj src/index.tsx·brand.tsx·renderer.tsx, public/static/style.css·app.js; 기존 실사진 유지·PC/모바일 확인·커밋/운영 배포. [moon-story-expanded-20260925]
 
 
 
 - Codex · 2026-09-25 Naver 서치어드바이저 기존 소유 계정 로그인 대기. Chrome 로그인 탭 유지. 로그인 후 moon.bdbddc.com 소유권 확인·sitemap.xml 제출만 재개. Google/Bing 재제출 불필요. [moon-search-launch-20260925]
 
 ## 최근 완료
+
+- 2026-09-25T22:35:25.120178+09:00 Codex: 개인 자기소개를 인스타 확인 원문(Cw6ewtKyHaW)에 근거한 5장·16문단 이야기로 확대. 기존 본문395자→새 이야기 본문2245자(목차/제목 포함2621자), 소개 2문단 별도. 페디랩 어린 기억·뒤늦은 목표·서울대 치과병원 경험·깨지기 쉬운 용기·진료 보람을 연결. 나의 이야기를 첫 메뉴/인사 다음 배치, 큰 실사진 유지. src/index.tsx·brand.tsx·renderer.tsx, public/static/style.css·app.js 변경. code58907e1 main push, Pages webapp/main128eb9c1 운영 배포. build/strict tsc/JS syntax/diff,1440·390px 시각/넘침/목차/모바일메뉴/현재메뉴 확인, 운영 HTTP200·본문·canonical/index·CSS/JS SHA·사이트맵/robots13검사 통과. 근거 /Users/msj/bddc/reports/2026-09-25-moon-story-expanded/verification.json. 이 작업 미완료 없음; Naver 로그인 대기는 별도 기존 항목 유지.
 
 - 2026-09-25 Codex: 사용자 승인에 따라 인스타 소개글(Cw6ewtKyHaW)의 실제 경험을 개인 홈페이지에 반영. 도입부·듣는 태도·원장 소개를 어린 시절 두려움→환자분의 용기→충분히 듣고 싶은 이유로 정리, 원문 링크·메타 소개 갱신. 큰 실사진/디자인 유지. 코드58c4d3a main push, webapp/main de0a4b51 운영 배포. strict tsc/build/diff·1440/390px 시각·운영 본문/링크/canonical/index 9개 검사 통과. reports/2026-09-25-moon-story/verification.json.
 
