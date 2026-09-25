@@ -6,6 +6,8 @@
 
 ## 진행 중 작업
 
+- Codex · 2026-09-25T21:12:55.340215+09:00 · 소개 영역 실사진 확대, 데스크톱/모바일 레이아웃 확인 및 운영 배포. 범위 public/static/style.css, src/renderer.tsx, 공통 기록. 인스타 고정 소개글은 읽기 확인만, 로그인 대기. [moon-portrait-20260925]
+
 - Codex · 2026-09-25 Naver 서치어드바이저 기존 소유 계정 로그인 대기. Chrome 로그인 탭 유지. 로그인 후 moon.bdbddc.com 소유권 확인·sitemap.xml 제출만 재개. Google/Bing 재제출 불필요. [moon-search-launch-20260925]
 
 ## 최근 완료
