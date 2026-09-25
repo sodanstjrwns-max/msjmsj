@@ -6,12 +6,11 @@
 
 ## 진행 중 작업
 
-- Codex · 2026-09-26T00:46:15.611375+09:00 · 사용자 네이버 로그인 완료 후 moon.bdbddc.com 서치어드바이저 등록 재개. 소유권 인증·사이트맵 제출·등록 확인. 수정 범위 /Users/msj/msjmsj 인증 meta 또는 인증 파일, 공유 기록. [moon-naver-20260926]
+- Codex · 2026-09-26T00:48:05.151355+09:00 · moon.bdbddc.com 네이버 인증 meta 배포 완료(a32a820/Pages690a56ae), strict tsc/build/diff·운영8검사 통과. 로그인 완료한 기존 병원 계정에서 소유확인 진행 중 네이버 CAPTCHA 표시; 사용자 직접 입력 요청/탭7 유지. 소유확인 결과 및 사이트맵 제출 미완료. 다음 입력 완료 후 결과 확인→sitemap.xml 1회 제출. reports/2026-09-26-moon-naver/progress.json. [moon-naver-20260926]
 
 
 
 
-- Codex · 2026-09-25 Naver 서치어드바이저 기존 소유 계정 로그인 대기. Chrome 로그인 탭 유지. 로그인 후 moon.bdbddc.com 소유권 확인·sitemap.xml 제출만 재개. Google/Bing 재제출 불필요. [moon-search-launch-20260925]
 
 ## 최근 완료
 
