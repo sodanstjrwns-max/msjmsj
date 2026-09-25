@@ -6,13 +6,14 @@
 
 ## 진행 중 작업
 
-- Codex · 2026-09-26T00:48:05.151355+09:00 · moon.bdbddc.com 네이버 인증 meta 배포 완료(a32a820/Pages690a56ae), strict tsc/build/diff·운영8검사 통과. 로그인 완료한 기존 병원 계정에서 소유확인 진행 중 네이버 CAPTCHA 표시; 사용자 직접 입력 요청/탭7 유지. 소유확인 결과 및 사이트맵 제출 미완료. 다음 입력 완료 후 결과 확인→sitemap.xml 1회 제출. reports/2026-09-26-moon-naver/progress.json. [moon-naver-20260926]
 
 
 
 
 
 ## 최근 완료
+
+- 2026-09-26T00:51:55.596990+09:00 Codex: moon.bdbddc.com 네이버 서치어드바이저 기존 계정 소유권 인증 완료·관리화면 접근 확인. sitemap.xml 1회 제출, 등록 시각26.09.26 00:50:47 표시 확인. 인증 코드a32a820/Pages690a56ae 유지; 새 앱 배포 없음. 수집/검색 색인 완료와 별개. reports/2026-09-26-moon-naver/naver-receipt.json. 네이버 로그인/보안문자 대기 해소, 이 작업 미완료 없음.
 
 - 2026-09-25T22:35:25.120178+09:00 Codex: 개인 자기소개를 인스타 확인 원문(Cw6ewtKyHaW)에 근거한 5장·16문단 이야기로 확대. 기존 본문395자→새 이야기 본문2245자(목차/제목 포함2621자), 소개 2문단 별도. 페디랩 어린 기억·뒤늦은 목표·서울대 치과병원 경험·깨지기 쉬운 용기·진료 보람을 연결. 나의 이야기를 첫 메뉴/인사 다음 배치, 큰 실사진 유지. src/index.tsx·brand.tsx·renderer.tsx, public/static/style.css·app.js 변경. code58907e1 main push, Pages webapp/main128eb9c1 운영 배포. build/strict tsc/JS syntax/diff,1440·390px 시각/넘침/목차/모바일메뉴/현재메뉴 확인, 운영 HTTP200·본문·canonical/index·CSS/JS SHA·사이트맵/robots13검사 통과. 근거 /Users/msj/bddc/reports/2026-09-25-moon-story-expanded/verification.json. 이 작업 미완료 없음; Naver 로그인 대기는 별도 기존 항목 유지.
 
